@@ -1,16 +1,20 @@
 <template>
+  <div class="bg-blue-200 w-screen h-screen">
+    <div class="p-3 text-5xl font-bold text-yellow-500">animeDb</div>
+
     <Search />
+  </div>
 </template>
 
 <script>
-import Search from './components/Search.vue'
+import Search from "./components/Search.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Search
-  }
-}
+    Search,
+  },
+};
 </script>
 
 <style>
