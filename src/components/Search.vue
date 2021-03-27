@@ -1,51 +1,42 @@
 <template>
-  <div class="flex flex-col">
-    <div class="p-1 text-center">
-      <form action="" v-on:submit.prevent>
-        <input
-          class="p-2 shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500 mx-1 text-xl"
-          type="text"
-          v-model="searchValue"
-        />
-        <button
-          class="bg-yellow-500 p-2 m-2 rounded-xl font-bold text-white shadow-md hover:bg-white hover:text-yellow-500 transform hover:scale-110"
-          @click="searchAnime(searchValue)"
-        >
-          Search
-        </button>
-      </form>
-    </div>
-    <Animeinfo
-      v-for="(results, index) in Data"
-      :key="index"
-      :Data="Data[index]"
+  <div class="flex flex-row items-center">
+    <select v-model="type" class="w-20 h-8 shadow m-1 text-md">
+      <option value="">All</option>
+      <option value="anime">Anime</option>
+      <option value="manga">Manga</option>
+      <option value="character">Character</option>
+    </select>
+    <input
+      class="shadow-md focus:outline-none focus:ring-1 focus:ring-yellow-500 text-xl h-8"
+      type="text"
+      v-model="searchValue"
     />
+    <button
+      class="h-8 bg-yellow-500 p-2 ml-1 font-bold text-white shadow-md hover:bg-white hover:text-yellow-500 transform hover:scale-110"
+      @click="searchAnime(searchValue, type)"
+    >
+      <i class="fas fa-search"></i>
+    </button>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import Animeinfo from "./AnimeInfo.vue";
+
 export default {
-  components: {
-    Animeinfo,
-  },
+  components: {},
   data() {
     return {
       searchValue: "",
-      Data: [],
+      type: "anime",
     };
   },
   methods: {
-    searchAnime(searchValue) {
+    searchAnime(searchValue, type) {
       axios
-        .get(
-          "https://api.jikan.moe/v3/search/anime?q=" +
-            searchValue +
-            "&limit=5&order_by=title"
-        )
+        .get(`https://api.jikan.moe/v3/search/${type}?q=${searchValue}`)
         .then((response) => {
-          this.Data = response.data.results;
+          this.$emit("searchEvent", response.data.results, type);
         });
     },
   },
