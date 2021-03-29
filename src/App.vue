@@ -1,20 +1,16 @@
 <template>
-<div> 
-  <Header/>
-  <router-view></router-view>
-</div>
+  <div class="flex flex-col bg-blue-100 w-full h-screen">
+    <Header />
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-
-import Header from './components/Header.vue';
+import Header from "./components/Header.vue";
 export default {
-  
-  components:{
-    Header
-  }
-
-
+  components: {
+    Header,
+  },
 };
 </script>
 
