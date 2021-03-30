@@ -1,13 +1,13 @@
 <template>
-  <div class="flex flex-row my-3 w-9/12 mx-1 items-center">
+  <div class="flex flex-row my-3 w-90 mx-1 bg-transparent border-2 border-blue-200 border-opacity-75 items-center shadow-md transform hover:scale-105 cursor-pointer">
     <div
-      class="relative w-2/5 transform hover:scale-105 cursor-pointer shadow-md"
+      class="flex w-48  cursor-pointer  p-2 " 
     >
-      <img :src="data.image_url" alt="" class="w-full shadow-md" />
+      <img :src="data.image_url" alt="" class="w-full " />
     </div>
 
     <div
-      class="w-3/5 ml-3 flex flex-col bg-blue-50 shadow-md h-44 items-center transform hover:scale-105 cursor-pointer"
+      class="w-48 p-1 flex flex-col bg-transparent h-60 items-center  text-white"
     >
       <div class="absolute text-right font-bold text-md top-1 right-1">
         <a
@@ -26,15 +26,15 @@
         </a>
       </div>
 
-      <div class="text-center h-3/6">
-        <p class="p-2 font-bold text-2xl text-gray-600 h-3/6 w-48 truncate ...">
+      <div class="flextext-center h-2/6 ">
+        <p class=" mt-5 font-bold text-xl  h-3/6 w-48 truncate ...">
           {{ data.title }}
         </p>
-        <p class="text-sm text-gray-600">
-          {{ data.type }} ({{ data.episodes }} episodes) ({{ data.rated }})
-        </p>
+        <p class="text-xs mb-2 ">
+          {{ data.type }} ({{ data.episodes }} episodes)</p> <p class="text-xs mb-2 "> ({{ data.rated }})</p>
+        
       </div>
-      <div class="text-md w-full h-3/6 p-2 text-justify">
+      <div class="text-sm w-48 h-4/6 my-2 pr-1">
         <p class="w-full h-full overflow-clip overflow-hidden ...">
           {{ data.synopsis }}
         </p>
