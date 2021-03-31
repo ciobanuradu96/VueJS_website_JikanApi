@@ -48,7 +48,9 @@ export default {
         .then((response) => {
           EventBus.$emit("searchEvent", response.data.results, type);
         });
+        this.searchValue=""
     },
+    
   },
 };
 </script>
