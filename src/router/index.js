@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import SearchResult from '../views/SearchResult.vue'
 import AnimePage from '../views/AnimePage.vue'
+import CharactherPage from '../views/CharactherPage'
 Vue.use(VueRouter)
 
 const routes = [
@@ -18,15 +19,20 @@ const routes = [
     component: SearchResult
   },
   {
-    path:'/anime/:animeId',
-    name:'AnimePage',
-    component:AnimePage
+    path: '/anime/:animeId',
+    name: 'AnimePage',
+    component: AnimePage
+  },
+  {
+    path: '/characther/:charactherId',
+    name: 'CharactherPage',
+    component: CharactherPage
   }
 ]
 
 const router = new VueRouter({
   routes,
-  mode:'history'
+  mode: 'history'
 })
 
 export default router
