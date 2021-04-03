@@ -1,5 +1,8 @@
 <template>
-  <div class="flex flex-col w-screen h-full bg-blue-400">
+  <div
+    class="flex flex-col w-screen h-full bg-blue-400"
+    v-if="animeData != null"
+  >
     <div class="flex flex-col my-auto items-center p-5 bg-blue-500 h-screen">
       <div class="flex flex-col items-center my-auto">
         <div
@@ -58,6 +61,7 @@
       <div class="flex flex-col items-center my-auto">
         <div class="w-full">
           <iframe
+            v-if="animeData.trailer_url != null"
             :src="animeData.trailer_url + '&mute=1'"
             class="mx-auto"
           ></iframe>
@@ -151,6 +155,13 @@
 <script>
 import axios from "axios";
 export default {
+  watch: {
+    $route(to, from) {
+      if (to != from) {
+        window.location.reload();
+      }
+    },
+  },
   data() {
     return {
       animeId: null,

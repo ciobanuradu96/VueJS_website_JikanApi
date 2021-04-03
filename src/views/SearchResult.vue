@@ -18,9 +18,9 @@
 </template>
 
 <script>
+import axios from "axios";
 import CharInfo from "../components/CharInfo.vue";
 import Animeinfo from "../components/AnimeInfo.vue";
-import { EventBus } from "../event-bus";
 
 export default {
   components: {
@@ -30,17 +30,30 @@ export default {
   data() {
     return {
       data: [],
-      type: "",
     };
   },
   created() {
-    EventBus.$on("searchEvent", this.onEvent);
+    // EventBus.$on("searchEvent", this.onEvent);
+    this.searchValue = this.$route.params.searchValue;
+    this.type = this.$route.params.type;
+    axios
+      .get(
+        `https://api.jikan.moe/v3/search/${this.type}?q=${this.searchValue}**`
+      )
+      .then(
+        (response) => {
+          this.data = response.data.results;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   },
   methods: {
-    onEvent(data, type) {
-      this.data = data;
-      this.type = type;
-    },
+    // onEvent(data, type) {
+    //   this.data = data;
+    //   this.type = type;
+    // },
   },
 };
 </script>

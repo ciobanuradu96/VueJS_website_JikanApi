@@ -46,6 +46,13 @@
 <script>
 import axios from "axios";
 export default {
+  watch: {
+    $route(to, from) {
+      if (to != from) {
+        window.location.reload();
+      }
+    },
+  },
   data() {
     return {
       charactherId: null,

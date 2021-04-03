@@ -14,7 +14,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/SearchResult',
+    path: '/search/:type/:searchValue',
     name: 'SearchResult',
     component: SearchResult
   },
