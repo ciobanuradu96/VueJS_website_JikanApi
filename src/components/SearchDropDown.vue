@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center px-1 cursor-pointer"
+    class="flex items-center px-1 cursor-pointer border-t-2"
     @click="clickEvent(type, id)"
   >
     <div

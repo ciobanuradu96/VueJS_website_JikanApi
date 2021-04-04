@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col">
-    <div class="flex bg-blue-500 items-center p-1">
+  
+    <div class="flex bg-blue-500 items-center mx-auto p-1 w-screen ">
       <!-- Logo -->
       <div class="text-5xl font-bold text-blue-100 mr-16 p-1">
         <router-link :to="'/'"> animeDb </router-link>
@@ -24,14 +24,15 @@
 
         <!-- Search dropdown box -->
         <div
-          v-if="animeData != null"
-          class="ml-48 absolute top-12 right-0 border-2"
+          v-if="animeData != null && charData !=null"
+          class="ml-48 absolute top-12 right-0 border-2 bg-blue-400 border-t-0" 
         >
           <!-- Anime results -->
-          <p>Animes:</p>
+          <div class="bg-blue-50 mb-1"><p class="text-blue-400 font-bold">Animes:</p> </div>
+          
           <SearchDropDown
             v-for="(results, index) in 3"
-            :key="index"
+            :key="'anime'+index"
             :img="animeData[index].image_url"
             :name="animeData[index].title"
             :type="'anime'"
@@ -39,20 +40,23 @@
             @goTo="click"
           />
           <!-- Char results -->
-          <p>Characthers:</p>
+           <div class="bg-blue-50 my-1">
+          <p class="text-blue-400 font-bold">Characthers:</p></div>
           <SearchDropDown
             v-for="(results, index) in 3"
-            :key="index"
+            :key="'char'+index"
             :img="charData[index].image_url"
             :name="charData[index].name"
             :type="'characther'"
             :id="charData[index].mal_id"
             @goTo="click"
           />
+           <div class="bg-blue-400 mt-1">
+          <p class="text-blue-50 text-center font-bold">View All results</p></div>
         </div>
       </div>
     </div>
-  </div>
+  
 </template>
 
 <script>
@@ -62,6 +66,8 @@ import SearchDropDown from "./SearchDropDown.vue";
 export default {
   watch: {
     searchValue: function () {
+
+      if(this.searchValue!=""){ 
       axios
         .get(`https://api.jikan.moe/v3/search/anime?q=${this.searchValue}**`)
         .then(
@@ -73,7 +79,7 @@ export default {
             this.animeData = null;
           }
         );
-
+      
       axios
         .get(
           `https://api.jikan.moe/v3/search/character?q=${this.searchValue}**`
@@ -87,8 +93,11 @@ export default {
             this.charData = null;
           }
         );
-    },
-  },
+}
+
+    else{this.animeData = null;
+      this.charData = null;}
+  },},
   components: {
     SearchDropDown,
   },

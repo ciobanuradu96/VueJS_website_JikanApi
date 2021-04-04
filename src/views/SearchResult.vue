@@ -8,24 +8,20 @@
       />
     </div>
     <div v-else-if="type === 'character'">
-      <CharInfo
-        v-for="(results, index) in data"
-        :key="index"
-        :data="data[index]"
-      />
+     
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import CharInfo from "../components/CharInfo.vue";
+
 import Animeinfo from "../components/AnimeInfo.vue";
 
 export default {
   components: {
     Animeinfo,
-    CharInfo,
+  
   },
   data() {
     return {
@@ -33,7 +29,6 @@ export default {
     };
   },
   created() {
-    // EventBus.$on("searchEvent", this.onEvent);
     this.searchValue = this.$route.params.searchValue;
     this.type = this.$route.params.type;
     axios
@@ -50,10 +45,7 @@ export default {
       );
   },
   methods: {
-    // onEvent(data, type) {
-    //   this.data = data;
-    //   this.type = type;
-    // },
+
   },
 };
 </script>

@@ -1,18 +1,16 @@
 <template>
 <div class="flex flex-col items-center w-screen"> 
-  <div class="flex flex-col w-screen h-screen">
-    <div class="flex flex-col items-center  my-auto"> 
-      
-      <div class="mx-4 ">  
-        <img src="https://pbs.twimg.com/media/BFKtmT2CMAAoSbE?format=jpg&name=900x900" 
-          class="rounded-full w-44 h-44 border-2 border-white shadow-md">
-      </div>
-      <div class="m-4"> 
+  <div class="flex flex-col  w-screen h-screen">
+    <!-- Welcome section -->
+    <div class="flex flex-col items-center  my-auto  "> 
+      <div class="rounded-full w-44 h-44 border-2 border-white shadow-md bg-cover bg-center" :style="{backgroundImage:'url(https://pbs.twimg.com/media/BFKtmT2CMAAoSbE?format=jpg&name=900x900)'}"> </div>
+  
+      <div class="m-4 text-center"> 
         <p class="text-4xl text-blue-50 font-bold">Welcome to animeDb</p>
         <p class="text-sm text-center text-blue-300"> this site is powered by Jikan API<i class="fab fa-github text-xl p-1"></i>&<i class="fab fa-vuejs text-xl p-1"></i></p>
       </div>
       
-      <div class="w-8/12 text-center text-lg p-3 text-blue-100"> 
+      <div class="w-68 text-center text-md p-3 text-blue-100"> 
         <p>    
           Jikan (時間) is an open-source PHP & REST API for the “most active online anime + 
           manga community and database” — MyAnimeList.net. It parses the website to satisfy 
@@ -23,7 +21,7 @@
   </div>  
   <div class="flex flex-col  bg-blue-400 w-screen h-screen"> 
     <div class="flex flex-col  my-auto"> 
-    <CarouselTop :data="dataPopular" :title="'Most popular anime'"/>
+    <CarouselTop :data="dataPopular" :title="'Most popular '"/>
     <CarouselTop :data="dataTv" :title="'Best rated anime'"/>
     </div>
   </div>  
