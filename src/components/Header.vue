@@ -1,62 +1,64 @@
 <template>
-  
-    <div class="flex bg-blue-500 items-center mx-auto p-1 w-screen ">
-      <!-- Logo -->
-      <div class="text-5xl font-bold text-blue-100 mr-16 p-1">
-        <router-link :to="'/'"> animeDb </router-link>
-      </div>
-      <!-- Div containing all the search items -->
+  <div class="flex bg-blue-500 items-center mx-auto p-1 w-screen">
+    <!-- Logo -->
+    <div class="text-5xl font-bold text-blue-100 mr-16 p-1">
+      <router-link :to="'/'"> animeDb </router-link>
+    </div>
+    <!-- Div containing all the search items -->
+    <div
+      class="flex relative flex-row items-center shadow-md text-xl h-10 w-44 bg-blue-400 text-white p-2 border-2 border-white border-opacity-50 rounded-md"
+    >
+      <!-- Input field for search -->
+      <input
+        class="focus:outline-none w-full h-full bg-transparent"
+        type="text"
+        v-model="searchValue"
+      />
+
+      <!-- Search Button -->
+      <!-- Need Search all Page -->
+      <i
+        class="fas py-3 fa-search h-10 focus:outline-none font-bold transform"
+      ></i>
+
+      <!-- Search dropdown box -->
       <div
-        class="flex relative flex-row items-center shadow-md text-xl h-10 w-44 bg-blue-400 text-white p-2 border-2 border-white border-opacity-50 rounded-md"
+        v-if="animeData != null && charData != null"
+        class="ml-48 absolute top-12 right-0 border-2 bg-blue-400 border-t-0"
       >
-        <!-- Input field for search -->
-        <input
-          class="focus:outline-none w-full h-full bg-transparent"
-          type="text"
-          v-model="searchValue"
+        <!-- Anime results -->
+        <div class="bg-blue-50 mb-1">
+          <p class="text-blue-400 font-bold">Animes:</p>
+        </div>
+
+        <SearchDropDown
+          v-for="(results, index) in 3"
+          :key="'anime' + index"
+          :img="animeData[index].image_url"
+          :name="animeData[index].title"
+          :type="'anime'"
+          :id="animeData[index].mal_id"
+          @goTo="click"
         />
-
-        <!-- Search Button -->
-        <!-- Need Search all Page -->
-        <i
-          class="fas py-3 fa-search h-10 focus:outline-none font-bold transform"
-        ></i>
-
-        <!-- Search dropdown box -->
-        <div
-          v-if="animeData != null && charData !=null"
-          class="ml-48 absolute top-12 right-0 border-2 bg-blue-400 border-t-0" 
-        >
-          <!-- Anime results -->
-          <div class="bg-blue-50 mb-1"><p class="text-blue-400 font-bold">Animes:</p> </div>
-          
-          <SearchDropDown
-            v-for="(results, index) in 3"
-            :key="'anime'+index"
-            :img="animeData[index].image_url"
-            :name="animeData[index].title"
-            :type="'anime'"
-            :id="animeData[index].mal_id"
-            @goTo="click"
-          />
-          <!-- Char results -->
-           <div class="bg-blue-50 my-1">
-          <p class="text-blue-400 font-bold">Characthers:</p></div>
-          <SearchDropDown
-            v-for="(results, index) in 3"
-            :key="'char'+index"
-            :img="charData[index].image_url"
-            :name="charData[index].name"
-            :type="'characther'"
-            :id="charData[index].mal_id"
-            @goTo="click"
-          />
-           <div class="bg-blue-400 mt-1">
-          <p class="text-blue-50 text-center font-bold">View All results</p></div>
+        <!-- Char results -->
+        <div class="bg-blue-50 my-1">
+          <p class="text-blue-400 font-bold">Characthers:</p>
+        </div>
+        <SearchDropDown
+          v-for="(results, index) in 3"
+          :key="'char' + index"
+          :img="charData[index].image_url"
+          :name="charData[index].name"
+          :type="'characther'"
+          :id="charData[index].mal_id"
+          @goTo="click"
+        />
+        <div class="bg-blue-400 mt-1">
+          <p class="text-blue-50 text-center font-bold">View All results</p>
         </div>
       </div>
     </div>
-  
+  </div>
 </template>
 
 <script>
@@ -66,38 +68,48 @@ import SearchDropDown from "./SearchDropDown.vue";
 export default {
   watch: {
     searchValue: function () {
+      if (this.searchValue != "") {
+        if (!this.awaitingSearch) {
+          setTimeout(() => {
+            axios
+              .get(
+                `https://api.jikan.moe/v3/search/anime?q=${this.searchValue}**`
+              )
+              .then(
+                (response) => {
+                  this.animeData = response.data.results;
+                },
+                (error) => {
+                  console.log(error);
+                  this.animeData = null;
+                }
+              );
 
-      if(this.searchValue!=""){ 
-      axios
-        .get(`https://api.jikan.moe/v3/search/anime?q=${this.searchValue}**`)
-        .then(
-          (response) => {
-            this.animeData = response.data.results;
-          },
-          (error) => {
-            console.log(error);
-            this.animeData = null;
-          }
-        );
-      
-      axios
-        .get(
-          `https://api.jikan.moe/v3/search/character?q=${this.searchValue}**`
-        )
-        .then(
-          (response) => {
-            this.charData = response.data.results;
-          },
-          (error) => {
-            console.log(error);
-            this.charData = null;
-          }
-        );
-}
+            axios
+              .get(
+                `https://api.jikan.moe/v3/search/character?q=${this.searchValue}**`
+              )
+              .then(
+                (response) => {
+                  this.charData = response.data.results;
+                },
+                (error) => {
+                  console.log(error);
+                  this.charData = null;
+                }
+              );
+            this.awaitingSearch = false;
+          }, 1000);
+        }
 
-    else{this.animeData = null;
-      this.charData = null;}
-  },},
+        this.awaitingSearch = true;
+      } else {
+        this.animeData = null;
+        this.charData = null;
+        console.log(this.searchValue);
+      }
+    },
+  },
   components: {
     SearchDropDown,
   },
@@ -107,6 +119,7 @@ export default {
       charData: null,
       searchValue: "",
       type: "anime",
+      awaitingSearch: false,
     };
   },
   methods: {
