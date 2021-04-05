@@ -13,6 +13,7 @@
         class="focus:outline-none w-full h-full bg-transparent"
         type="text"
         v-model="searchValue"
+        @click="showSearch"
       />
 
       <!-- Search Button -->
@@ -23,8 +24,9 @@
 
       <!-- Search dropdown box -->
       <div
-        v-if="animeData != null && charData != null"
+        v-if="animeData != null && charData != null && hide == false"
         class="ml-48 absolute top-12 right-0 border-2 bg-blue-400 border-t-0"
+        v-click-outside="hideSearch"
       >
         <!-- Anime results -->
         <div class="bg-blue-50 mb-1">
@@ -65,28 +67,26 @@
 import axios from "axios";
 import debounce from "lodash.debounce";
 
-
 import SearchDropDown from "./SearchDropDown.vue";
 
 export default {
   watch: {
-    searchValue:debounce(async function () {
-            if (this.searchValue!=""){ 
-            let a = await axios
-              .get(
-                `https://api.jikan.moe/v3/search/anime?q=${this.searchValue}**`
-              );
-              this.animeData=a.data.results;
-              
-            let b = await axios
-              .get(
-                `https://api.jikan.moe/v3/search/character?q=${this.searchValue}**`
-              );
-              this.charData=b.data.results;}
-              else{this.animeData=null
-              this.charData=null}
+    searchValue: debounce(async function () {
+      if (this.searchValue != "") {
+        let a = await axios.get(
+          `https://api.jikan.moe/v3/search/anime?q=${this.searchValue}**`
+        );
+        this.animeData = a.data.results;
 
-    },1000)
+        let b = await axios.get(
+          `https://api.jikan.moe/v3/search/character?q=${this.searchValue}**`
+        );
+        this.charData = b.data.results;
+      } else {
+        this.animeData = null;
+        this.charData = null;
+      }
+    }, 500),
   },
   components: {
     SearchDropDown,
@@ -96,8 +96,7 @@ export default {
       animeData: null,
       charData: null,
       searchValue: "",
-      type: "anime",
-      awaitingSearch: false,
+      hide: false,
     };
   },
   methods: {
@@ -106,6 +105,13 @@ export default {
       this.animeData = null;
       this.charData = null;
       this.searchValue = "";
+    },
+    showSearch() {
+      this.hide = false;
+      console.log(this.hide);
+    },
+    hideSearch() {
+      this.hide = true;
     },
   },
 };

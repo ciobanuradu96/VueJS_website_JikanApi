@@ -1,5 +1,8 @@
 <template>
-  <div class="flex flex-col w-screen h-full bg-blue-400 items-center mx-auto">
+  <div
+    class="flex flex-col w-screen h-full bg-blue-400 items-center mx-auto"
+    v-if="charData != null"
+  >
     <div
       class="flex flex-col my-auto items-center bg-blue-500 w-screen h-screen"
     >
@@ -47,10 +50,8 @@
 import axios from "axios";
 export default {
   watch: {
-    $route(to, from) {
-      if (to != from) {
-        window.location.reload();
-      }
+    $route() {
+      this.getData();
     },
   },
   data() {
@@ -60,14 +61,16 @@ export default {
       show: false,
     };
   },
+  methods: {
+    async getData() {
+      let a = await axios.get(
+        `https://api.jikan.moe/v3/character/${this.$route.params.charactherId}`
+      );
+      this.charData = a.data;
+    },
+  },
   created() {
-    this.charactherId = this.$route.params.charactherId;
-
-    axios
-      .get(`https://api.jikan.moe/v3/character/${this.charactherId}`)
-      .then((response) => {
-        this.charData = response.data;
-      });
+    this.getData();
   },
 };
 </script>

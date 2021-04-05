@@ -1,9 +1,11 @@
 <template>
   <div
     class="flex flex-col w-screen h-full"
-    v-if="animeData != null"
+    v-if="animeData != null && animeCharData != null"
   >
-    <div class="flex flex-col my-auto items-center p-5 bg-blue-500 h-screen w-screen">
+    <div
+      class="flex flex-col my-auto items-center p-5 bg-blue-500 h-screen w-screen"
+    >
       <div class="flex flex-col items-center my-auto">
         <!-- Anime picture -->
         <div
@@ -25,15 +27,8 @@
           <div class="inline-block p-2 m-2 border-2 rounded-3xl shadow-md">
             Popularity: #{{ animeData.popularity }}
           </div>
-          
-
-          <!-- {{ animeData.title_japanese }}
-        {{ animeData.title_synonyms }}
-        {{ animeData.status }}
-        {{ animeData.premiered }}
-        {{ animeData.type }} -->
         </div>
-          <!-- Anime description -->
+
         <div
           class="border-2 p-2 text-justify text-blue-100 border-blue-300 w-full my-4 shadow-md rounded-3xl"
         >
@@ -122,19 +117,19 @@
             :class="this.viewAll ? '' : 'hidden'"
           >
             <div
-              class="relative flex items-center m-1 bg-blue-400 pb-7 px-3 mx-auto "
+              class="relative flex items-center m-1 bg-blue-400 pb-7 px-3 mx-auto"
               v-for="(n, index) in animeCharData"
               :key="index"
             >
               <router-link :to="`/characther/${animeCharData[index].mal_id}`">
                 <div
-                  class=" w-16 h-24 bg-contain bg-no-repeat border-2  "
+                  class="w-16 h-24 bg-contain bg-no-repeat border-2"
                   :style="{
                     backgroundImage: `url(${animeCharData[index].image_url})`,
                   }"
                 ></div>
               </router-link>
-              <div class="w-20 absolute bottom-2 left-1 bg-blue-400  border-2 ">
+              <div class="w-20 absolute bottom-2 left-1 bg-blue-400 border-2">
                 <p
                   class="text-center text-blue-50 text-sm overflow-ellipsis overflow-hidden ..."
                 >
@@ -165,19 +160,7 @@ import axios from "axios";
 export default {
   watch: {
     $route() {
-  
-         axios
-      .get(`https://api.jikan.moe/v3/anime/${this.$route.params.animeId}`)
-      .then((response) => {
-        this.animeData = response.data;
-      });
-    axios
-      .get(`https://api.jikan.moe/v3/anime/${this.$route.params.animeId}/characters_staff`)
-      .then((response) => {
-        this.animeCharData = response.data.characters;
-      });
-      
-      
+      this.getData();
     },
   },
   data() {
@@ -189,19 +172,20 @@ export default {
       viewAll: false,
     };
   },
+  methods: {
+    async getData() {
+      let a = await axios.get(
+        `https://api.jikan.moe/v3/anime/${this.$route.params.animeId}`
+      );
+      this.animeData = a.data;
+      let b = await axios.get(
+        `https://api.jikan.moe/v3/anime/${this.$route.params.animeId}/characters_staff`
+      );
+      this.animeCharData = b.data.characters;
+    },
+  },
   created() {
-    // this.animeId = this.$route.params.animeId;
-
-    // axios
-    //   .get(`https://api.jikan.moe/v3/anime/${this.animeId}`)
-    //   .then((response) => {
-    //     this.animeData = response.data;
-    //   });
-    // axios
-    //   .get(`https://api.jikan.moe/v3/anime/${this.animeId}/characters_staff`)
-    //   .then((response) => {
-    //     this.animeCharData = response.data.characters;
-    //   });
+    this.getData();
   },
 };
 </script>
