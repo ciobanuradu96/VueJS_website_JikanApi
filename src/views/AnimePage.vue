@@ -164,10 +164,20 @@
 import axios from "axios";
 export default {
   watch: {
-    $route(to, from) {
-      if (to != from) {
-        window.location.reload();
-      }
+    $route() {
+  
+         axios
+      .get(`https://api.jikan.moe/v3/anime/${this.$route.params.animeId}`)
+      .then((response) => {
+        this.animeData = response.data;
+      });
+    axios
+      .get(`https://api.jikan.moe/v3/anime/${this.$route.params.animeId}/characters_staff`)
+      .then((response) => {
+        this.animeCharData = response.data.characters;
+      });
+      
+      
     },
   },
   data() {
@@ -180,18 +190,18 @@ export default {
     };
   },
   created() {
-    this.animeId = this.$route.params.animeId;
+    // this.animeId = this.$route.params.animeId;
 
-    axios
-      .get(`https://api.jikan.moe/v3/anime/${this.animeId}`)
-      .then((response) => {
-        this.animeData = response.data;
-      });
-    axios
-      .get(`https://api.jikan.moe/v3/anime/${this.animeId}/characters_staff`)
-      .then((response) => {
-        this.animeCharData = response.data.characters;
-      });
+    // axios
+    //   .get(`https://api.jikan.moe/v3/anime/${this.animeId}`)
+    //   .then((response) => {
+    //     this.animeData = response.data;
+    //   });
+    // axios
+    //   .get(`https://api.jikan.moe/v3/anime/${this.animeId}/characters_staff`)
+    //   .then((response) => {
+    //     this.animeCharData = response.data.characters;
+    //   });
   },
 };
 </script>

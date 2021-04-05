@@ -63,52 +63,30 @@
 
 <script>
 import axios from "axios";
+import debounce from "lodash.debounce";
+
+
 import SearchDropDown from "./SearchDropDown.vue";
 
 export default {
   watch: {
-    searchValue: function () {
-      if (this.searchValue != "") {
-        if (!this.awaitingSearch) {
-          setTimeout(() => {
-            axios
+    searchValue:debounce(async function () {
+            if (this.searchValue!=""){ 
+            let a = await axios
               .get(
                 `https://api.jikan.moe/v3/search/anime?q=${this.searchValue}**`
-              )
-              .then(
-                (response) => {
-                  this.animeData = response.data.results;
-                },
-                (error) => {
-                  console.log(error);
-                  this.animeData = null;
-                }
               );
-
-            axios
+              this.animeData=a.data.results;
+              
+            let b = await axios
               .get(
                 `https://api.jikan.moe/v3/search/character?q=${this.searchValue}**`
-              )
-              .then(
-                (response) => {
-                  this.charData = response.data.results;
-                },
-                (error) => {
-                  console.log(error);
-                  this.charData = null;
-                }
               );
-            this.awaitingSearch = false;
-          }, 1000);
-        }
+              this.charData=b.data.results;}
+              else{this.animeData=null
+              this.charData=null}
 
-        this.awaitingSearch = true;
-      } else {
-        this.animeData = null;
-        this.charData = null;
-        console.log(this.searchValue);
-      }
-    },
+    },1000)
   },
   components: {
     SearchDropDown,
