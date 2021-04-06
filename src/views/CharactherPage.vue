@@ -18,7 +18,7 @@
           ></p>
         </div>
         <div
-          class="border-2 p-2 text-justify text-blue-100 border-blue-300 m-2 w-4/5 shadow-md rounded-3xl"
+          class="border-2 p-2 text-justify text-blue-100 border-blue-300 m-2 w-4/5 md:w-2/5 shadow-md rounded-3xl"
         >
           <p
             class="p-2 overflow-clip overflow-hidden ..."

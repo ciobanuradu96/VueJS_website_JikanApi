@@ -1,19 +1,19 @@
 <template>
   <div class="flex bg-blue-500 items-center mx-auto p-1 w-screen">
     <!-- Logo -->
-    <div class="text-5xl font-bold text-blue-100 mr-16 p-1">
+    <div class="text-5xl font-bold text-blue-100 mr-16 p-1 mx-auto">
       <router-link :to="'/'"> animeDb </router-link>
     </div>
     <!-- Div containing all the search items -->
     <div
-      class="flex relative flex-row items-center shadow-md text-xl h-10 w-44 bg-blue-400 text-white p-2 border-2 border-white border-opacity-50 rounded-md"
+      class="flex relative flex-row items-center shadow-md text-xl h-10 w-44 bg-blue-400 text-white p-2 border-2 border-white border-opacity-50 rounded-md mx-auto" 
     >
       <!-- Input field for search -->
       <input
         class="focus:outline-none w-full h-full bg-transparent"
         type="text"
         v-model="searchValue"
-        @click="showSearch"
+        
       />
 
       <!-- Search Button -->
@@ -24,9 +24,9 @@
 
       <!-- Search dropdown box -->
       <div
-        v-if="animeData != null && charData != null && hide == false"
+        v-if="animeData != null && charData != null "
         class="ml-48 absolute top-12 right-0 border-2 bg-blue-400 border-t-0"
-        v-click-outside="hideSearch"
+       
       >
         <!-- Anime results -->
         <div class="bg-blue-50 mb-1">
@@ -96,7 +96,7 @@ export default {
       animeData: null,
       charData: null,
       searchValue: "",
-      hide: false,
+  
     };
   },
   methods: {
@@ -106,13 +106,7 @@ export default {
       this.charData = null;
       this.searchValue = "";
     },
-    showSearch() {
-      this.hide = false;
-      console.log(this.hide);
-    },
-    hideSearch() {
-      this.hide = true;
-    },
+    
   },
 };
 </script>

@@ -9,7 +9,7 @@
       <div class="flex flex-col items-center my-auto">
         <!-- Anime picture -->
         <div
-          class="w-60 h-60 rounded-full bg-center bg-cover bg-no-repeat border-2 shadow-md my-2"
+          class="w-60 h-60 md:w-80 md:h-80 rounded-full bg-center bg-cover bg-no-repeat border-2 shadow-md my-2"
           :style="{ backgroundImage: `url(${animeData.image_url})` }"
         ></div>
         <!-- Anime title -->
@@ -28,9 +28,9 @@
             Popularity: #{{ animeData.popularity }}
           </div>
         </div>
-
+      <!-- Anime synopsis -->
         <div
-          class="border-2 p-2 text-justify text-blue-100 border-blue-300 w-full my-4 shadow-md rounded-3xl"
+          class="border-2 p-2 text-justify text-blue-100 border-blue-300 w-full md:w-2/5 my-4 shadow-md rounded-3xl"
         >
           <p
             class="p-2 overflow-clip overflow-hidden ..."

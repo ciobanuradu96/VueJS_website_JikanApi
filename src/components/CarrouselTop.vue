@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div class="ml-5">
-      <p class="text-3xl text-blue-50 m-3">Top 50 {{ title }}</p>
+    <div class="ml-5 border-b-4 border-blue-50 border-opacity-50 mr-5">
+      <p class="text-4xl  font-bold text-blue-50 m-3 b">Top 50 {{ title }}</p>
     </div>
     <!-- Carousel -->
     <carousel
-      class="flex flex-row items-center w-64 mx-auto  bg-transparent h-80"
+      class="flex flex-row items-center w-64 md:w-4/5 mx-auto  bg-transparent h-80"
       :loop="true"
       :autoplay="true"
       :autoplayTimeout="4000"
       :autoplayHoverPause="true"
-      :perPage="1"
+      :perPageCustom="[[375, 1],[768, 3], [1024, 4],[1366, 6],[1920,7]]"
       :navigationEnabled="true"
       :paginationEnabled="false"
     >
