@@ -1,5 +1,5 @@
 # anime_api
-
+This website uses JikanApi https://jikan.docs.apiary.io/# to fecth data about animes and characthers 
 ## Project setup
 ```
 npm install
